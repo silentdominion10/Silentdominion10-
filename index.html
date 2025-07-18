@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fun Blog</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #fffae3;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(45deg, #ff4e50, #f9d423);
+      padding: 2rem;
+      text-align: center;
+      color: white;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background: #ff9a9e;
+      padding: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 2rem;
+    }
+    .video-post {
+      margin: 2rem 0;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 12px;
+    }
+    footer {
+      background: #ff4e50;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: auto;
+      gap: 1rem;
+    }
+    input, textarea {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      padding: 0.75rem;
+      border: none;
+      background: #f9d423;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🌈 My Fun Blog</h1>
+    <p>Welcome to the colorful side of the internet!</p>
+  </header>
+
+  <nav>
+    <a href="#videos">Videos</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://youtube.com" target="_blank">YouTube</a>
+  </nav>
+
+  <main>
+    <section id="videos">
+      <h2>🎥 Latest Video Post</h2>
+      <div class="video-post">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+        <p>Check out my latest vlog adventure!</p>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2>📸 Gallery</h2>
+      <div class="gallery">
+        <img src="https://placekitten.com/400/300" alt="Cute kitten">
+        <img src="https://placebear.com/400/300" alt="Bear pic">
+        <img src="https://placebeard.it/400x300" alt="Cool bearded dude">
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>📬 Contact Me</h2>
+      <form action="#" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Fun Blog by You. Stay bright, stay bold! ✨</p>
+  </footer>
+</body>
+
+</html>
