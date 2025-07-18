@@ -1,126 +1,397 @@
+from PIL import Image
+
+import requests
+
+from zipfile import ZipFile
+
+import os
+
+
+
+# Set up directories
+
+base_dir = "/mnt/data/website_dark_theme"
+
+assets_dir = os.path.join(base_dir, "assets")
+
+os.makedirs(assets_dir, exist_ok=True)
+
+
+
+# HTML content with dark theme and Instagram reel preview
+
+html_content = """
+
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fun Blog</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: #fffae3;
-      color: #333;
-    }
-    header {
-      background: linear-gradient(45deg, #ff4e50, #f9d423);
-      padding: 2rem;
-      text-align: center;
-      color: white;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      background: #ff9a9e;
-      padding: 1rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    main {
-      padding: 2rem;
-    }
-    .video-post {
-      margin: 2rem 0;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .gallery img {
-      width: 100%;
-      border-radius: 12px;
-    }
-    footer {
-      background: #ff4e50;
-      color: white;
-      padding: 2rem;
-      text-align: center;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      max-width: 400px;
-      margin: auto;
-      gap: 1rem;
-    }
-    input, textarea {
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: none;
-    }
-    button {
-      padding: 0.75rem;
-      border: none;
-      background: #f9d423;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  </style>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Silent Dominion</title>
+
+    <link rel="stylesheet" href="styles.css">
+
 </head>
 
 <body>
-  <header>
-    <h1>🌈 My Fun Blog</h1>
-    <p>Welcome to the colorful side of the internet!</p>
-  </header>
 
-  <nav>
-    <a href="#videos">Videos</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-    <a href="https://instagram.com" target="_blank">Instagram</a>
-    <a href="https://youtube.com" target="_blank">YouTube</a>
-  </nav>
+    <header>
 
-  <main>
-    <section id="videos">
-      <h2>🎥 Latest Video Post</h2>
-      <div class="video-post">
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        <p>Check out my latest vlog adventure!</p>
-      </div>
-    </section>
+        <h1>Welcome to Silent Dominion</h1>
 
-    <section id="gallery">
-      <h2>📸 Gallery</h2>
-      <div class="gallery">
-        <img src="https://placekitten.com/400/300" alt="Cute kitten">
-        <img src="https://placebear.com/400/300" alt="Bear pic">
-        <img src="https://placebeard.it/400x300" alt="Cool bearded dude">
-      </div>
-    </section>
+    </header>
 
-    <section id="contact">
-      <h2>📬 Contact Me</h2>
-      <form action="#" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" rows="5" placeholder="Your Message"></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </section>
-  </main>
 
-  <footer>
-    <p>© 2025 Fun Blog by You. Stay bright, stay bold! ✨</p>
-  </footer>
+
+    <main>
+
+        <section>
+
+            <h2>Featured Reel</h2>
+
+            <div class="reel-preview" onclick="window.open('https://www.instagram.com/reel/DJWDumcS7Gz/','_blank')">
+
+                <img src="assets/reel-thumbnail.jpg" alt="Instagram Reel Preview">
+
+                <div class="play-btn">▶️</div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </body>
 
 </html>
+
+"""
+
+
+
+# CSS content for dark theme and bold fonts
+
+css_content = """
+
+body {
+
+    background-color: #121212;
+
+    color: #f0f0f0;
+
+    font-family: Arial, sans-serif;
+
+    font-weight: bold;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+header {
+
+    background-color: #1e1e1e;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: #b71c1c;
+
+}
+
+main {
+
+    padding: 20px;
+
+}
+
+.reel-preview {
+
+    position: relative;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    cursor: pointer;
+
+}
+
+.reel-preview img {
+
+    width: 100%;
+
+    display: block;
+
+    border-radius: 10px;
+
+}
+
+.play-btn {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 60px;
+
+    color: rgba(255, 0, 0, 0.8);
+
+}
+
+"""
+
+
+
+# Save the HTML and CSS files
+
+with open(os.path.join(base_dir, "index.html"), "w") as f:
+
+    f.write(html_content)
+
+
+
+with open(os.path.join(base_dir, "styles.css"), "w") as f:
+
+    f.write(css_content)
+
+
+
+# Save the uploaded image as the reel thumbnail
+
+uploaded_image_path = "/mnt/data/reel-thumbnail.jpg"
+
+output_image_path = os.path.join(assets_dir, "reel-thumbnail.jpg")
+
+Image.open("/mnt/data/uploads/efcd0d26-5468-4e06-aadb-82fd7eae49c0/skull-crown.jpg").save(output_image_path)
+
+
+
+# Create the zip file
+
+zip_path = "/mnt/data/silentdominion_updated_site.zip"
+
+with ZipFile(zip_path, "w") as zipf:
+
+    for foldername, subfolders, filenames in os.walk(base_dir):
+
+        for filename in filenames:
+
+            file_path = os.path.join(foldername, filename)
+
+            arcname = os.path.relpath(file_path, base_dir)
+
+            zipf.write(file_path, arcname)
+
+
+
+zip_pathfrom PIL import Image
+
+import requests
+
+from zipfile import ZipFile
+
+import os
+
+
+
+# Set up directories
+
+base_dir = "/mnt/data/website_dark_theme"
+
+assets_dir = os.path.join(base_dir, "assets")
+
+os.makedirs(assets_dir, exist_ok=True)
+
+
+
+# HTML content with dark theme and Instagram reel preview
+
+html_content = """
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Silent Dominion</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Welcome to Silent Dominion</h1>
+
+    </header>
+
+
+
+    <main>
+
+        <section>
+
+            <h2>Featured Reel</h2>
+
+            <div class="reel-preview" onclick="window.open('https://www.instagram.com/reel/DJWDumcS7Gz/','_blank')">
+
+                <img src="assets/reel-thumbnail.jpg" alt="Instagram Reel Preview">
+
+                <div class="play-btn">▶️</div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
+
+"""
+
+
+
+# CSS content for dark theme and bold fonts
+
+css_content = """
+
+body {
+
+    background-color: #121212;
+
+    color: #f0f0f0;
+
+    font-family: Arial, sans-serif;
+
+    font-weight: bold;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+header {
+
+    background-color: #1e1e1e;
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: #b71c1c;
+
+}
+
+main {
+
+    padding: 20px;
+
+}
+
+.reel-preview {
+
+    position: relative;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    cursor: pointer;
+
+}
+
+.reel-preview img {
+
+    width: 100%;
+
+    display: block;
+
+    border-radius: 10px;
+
+}
+
+.play-btn {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 60px;
+
+    color: rgba(255, 0, 0, 0.8);
+
+}
+
+"""
+
+
+
+# Save the HTML and CSS files
+
+with open(os.path.join(base_dir, "index.html"), "w") as f:
+
+    f.write(html_content)
+
+
+
+with open(os.path.join(base_dir, "styles.css"), "w") as f:
+
+    f.write(css_content)
+
+
+
+# Save the uploaded image as the reel thumbnail
+
+uploaded_image_path = "/mnt/data/reel-thumbnail.jpg"
+
+output_image_path = os.path.join(assets_dir, "reel-thumbnail.jpg")
+
+Image.open("/mnt/data/uploads/efcd0d26-5468-4e06-aadb-82fd7eae49c0/skull-crown.jpg").save(output_image_path)
+
+
+
+# Create the zip file
+
+zip_path = "/mnt/data/silentdominion_updated_site.zip"
+
+with ZipFile(zip_path, "w") as zipf:
+
+    for foldername, subfolders, filenames in os.walk(base_dir):
+
+        for filename in filenames:
+
+            file_path = os.path.join(foldername, filename)
+
+            arcname = os.path.relpath(file_path, base_dir)
+
+            zipf.write(file_path, arcname)
+
+
+
+zip_path</html>
